@@ -25,11 +25,6 @@ def ex_a():
 
 ex_a()
 
-
-
-
-# #
-#
 # # HW 1  Avishag and Matan
 # # Part A:
 #
