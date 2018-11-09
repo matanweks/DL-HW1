@@ -21,9 +21,11 @@ def ex_a():
     train_set_pre_process = train_set[0] - train_mean
     valid_set_pre_process = valid_set[0] - train_mean
     test_set_pre_process = test_set[0] - train_mean
+    print(train_mean)
 
 
 ex_a()
+
 
 # # HW 1  Avishag and Matan
 # # Part A:
