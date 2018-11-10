@@ -1,6 +1,6 @@
 #
 # import matplotlib.pyplot as plt
-# import numpy as np
+import numpy as np
 # import pickle, gzip, import urllib.request, json
 #
 # data_url = "http://deeplearning.net/data/mnist/mnist.pkl.gz"
@@ -50,5 +50,22 @@
 # [w, x] = analytic_regression(train_set_process, )
 #
 
-for x in range(0, 100):
-    print(x)
+# # test = np.sign(test).T
+# # print(test.shape[0])
+# # print(test)
+#
+# test2 = np.array([1, 2, 3, 4])
+# test2 = test2[:, np.newaxis]
+# test = test[:, np.newaxis]
+#
+# new = np.matmul(test.T, test2)
+# new2 = np.dot(test, test2.T)
+# new3 = np.outer(test,test2)
+#
+# print(new)
+# print(new2)
+# print(test @ test2.T)
+# print(new3)
+#
+t = np.linspace(1, 10, 10)
+print(t)
