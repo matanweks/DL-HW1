@@ -29,24 +29,27 @@ def class_process(y):
 
 # section B functions
 def analytic_regression(x, y, lambda1):
-    b_analytic = 1 / x.shape[0] * np.sum(y)
-    w_analytic = np.matmul(np.linalg.pinv(np.matmul(x.T, x) + 2 * x.shape[0] * lambda1), np.matmul(x.T, y))
+    m = x.shape[0]
+    b_analytic = 1 / m * np.sum(y)
+    w_analytic = np.matmul(np.linalg.pinv(np.matmul(x.T, x) + 2 * m * lambda1 * np.identity(x.shape[1])), np.matmul(x.T, y))
     return w_analytic, b_analytic
 
 
 def gradient_descent_regression(x, y, lambda1, w_new, b_new, step_size=0.001):
     y = convert_vector_to_matrix(y)
-    for i in range(0, 10):
+    m = x.shape[0]
+    for i in range(0, 100):
         w_old = w_new
-        x_mul_w = (np.matmul(x, w_old) - y)
-        w_derivative = 1/x.shape[0] * (np.matmul(x.T, x_mul_w)) + 2 * lambda1 * w_old
+        x_mul_w_minus_y = np.matmul(x, w_old) - y
+        w_derivative = 1/m * (np.matmul(x.T, x_mul_w_minus_y)) + 2 * lambda1 * w_old
         w_new = w_old - step_size * w_derivative
 
         b_old = b_new
-        b_new = b_old - step_size * (b_old - 1 / x.shape[0] * np.sum(y))
+        b_new = b_old - step_size * (b_old - 1/m * np.sum(y))
     return w_new, b_new
 
 # section C functions
+# def linear_classifier():
 
 # extras
 def plt_the_number(y):
@@ -85,8 +88,9 @@ def convert_vector_to_matrix(y):
 
 
 ######################## MAIN ########################
-# section A
+
 def main():
+    # section A
     train_mean = find_mean(train_set[0])
     train_set_process = preprocess(train_set[0], train_mean)
     valid_set_process = preprocess(valid_set[0], train_mean)
@@ -98,22 +102,24 @@ def main():
     # plt_the_number(train_mean)
     # plt_the_number(test_set_process[6])
 
-    lambda1 = 10
+    lambda1 = 0.001
     # initial_guess = np.zeros((784, 1))
     initial_guess = np.random.rand(784, 1)
+
     # section B
     [w_analytic, b_analytic] = analytic_regression(train_set_process, train_set_class, lambda1)
-    [w_gd, b_gd] = gradient_descent_regression(x=train_set_process, y=train_set_class, lambda1 = lambda1, w_new = initial_guess, b_new = 0)
+    [w_gd, b_gd] = gradient_descent_regression(x=train_set_process, y=train_set_class, lambda1=lambda1, w_new=initial_guess, b_new=0)
     # print_w_b(w_gd, b_gd)
     plt_w(w_analytic, w_gd)
-    print("w_analytic")
-    print(w_analytic)
-    print("w_gd")
-    print(w_gd)
+    # print("w_analytic")
+    # print(w_analytic)
+    # print("w_gd")
+    # print(w_gd)
 
+    # section C
 
 main()
-# section C
+
 
 
 
