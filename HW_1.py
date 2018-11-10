@@ -34,9 +34,9 @@ def analytic_regression(x, y, lambda1):
     return w_analytic, b_analytic
 
 
-def gradient_descent_regression(x, y, lambda1, w_new, b_new, step_size=0.01):
+def gradient_descent_regression(x, y, lambda1, w_new, b_new, step_size=0.001):
     y = convert_vector_to_matrix(y)
-    for i in range(0, 500):
+    for i in range(0, 10):
         w_old = w_new
         x_mul_w = (np.matmul(x, w_old) - y)
         w_derivative = 1/x.shape[0] * (np.matmul(x.T, x_mul_w)) + 2 * lambda1 * w_old
@@ -83,33 +83,36 @@ def convert_vector_to_matrix(y):
     y = y[:, np.newaxis]
     return y
 
+
 ######################## MAIN ########################
 # section A
-train_mean = find_mean(train_set[0])
-train_set_process = preprocess(train_set[0], train_mean)
-valid_set_process = preprocess(valid_set[0], train_mean)
-test_set_process = preprocess(test_set[0], train_mean)
+def main():
+    train_mean = find_mean(train_set[0])
+    train_set_process = preprocess(train_set[0], train_mean)
+    valid_set_process = preprocess(valid_set[0], train_mean)
+    test_set_process = preprocess(test_set[0], train_mean)
+    train_set_class = class_process(train_set[1])
 
-train_set_class = class_process(train_set[1])
+    # train_set_test = train_set[0][6]
+    # plt_the_number(train_set_test)
+    # plt_the_number(train_mean)
+    # plt_the_number(test_set_process[6])
 
-# train_set_test = train_set[0][6]
-# plt_the_number(train_set_test)
-# plt_the_number(train_mean)
-# plt_the_number(test_set_process[6])
+    lambda1 = 10
+    # initial_guess = np.zeros((784, 1))
+    initial_guess = np.random.rand(784, 1)
+    # section B
+    [w_analytic, b_analytic] = analytic_regression(train_set_process, train_set_class, lambda1)
+    [w_gd, b_gd] = gradient_descent_regression(x=train_set_process, y=train_set_class, lambda1 = lambda1, w_new = initial_guess, b_new = 0)
+    # print_w_b(w_gd, b_gd)
+    plt_w(w_analytic, w_gd)
+    print("w_analytic")
+    print(w_analytic)
+    print("w_gd")
+    print(w_gd)
 
 
-lambda1 = 10
-# initial_guess = np.zeros((784, 1))
-initial_guess = np.random.rand(784, 1)
-# section B
-[w_analytic, b_analytic] = analytic_regression(train_set_process, train_set_class, lambda1)
-[w_gd, b_gd] = gradient_descent_regression(x=train_set_process, y=train_set_class, lambda1 = lambda1, w_new = initial_guess, b_new = 0)
-# print_w_b(w_gd, b_gd)
-plt_w(w_analytic, w_gd)
-print("w_analytic")
-print(w_analytic)
-print("w_gd")
-print(w_gd)
+main()
 # section C
 
 
